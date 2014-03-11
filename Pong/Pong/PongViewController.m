@@ -189,19 +189,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-//-(void)dealloc
-//{
-//    [super dealloc];
-//    
-//    [ball release];
-//    [userPaddle release];
-//    [aiPaddle release];
-//    [userScoreText release];
-//    [aiScoreText release];
-//    [winOrLoseLabel release];
-//    
-//    
-//}
 
 @end
 
