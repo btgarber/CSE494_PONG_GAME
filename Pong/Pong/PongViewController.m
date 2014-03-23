@@ -7,12 +7,12 @@
 //
 
 #import "PongViewController.h"
-#define gameStateRunning 1
-#define gameStatePaused 2
 #define ballSpeedX 2
 #define ballSpeedY 2
-#define aiMoveSpeed 3.25
-#define scoreToWin 9
+
+#define RUNNING 1
+#define PAUSED 2
+
 
 @interface PongViewController ()
 
@@ -38,7 +38,7 @@
     CGPoint location = [touch locationInView:touch.view];
     
     //start the game
-    self.gameState = gameStateRunning;
+    self.gameState = RUNNING;
     if (location.x > self.view.bounds.size.height)
     {
         CGPoint yLocation = CGPointMake(userPaddle.center.x, location.y);
@@ -48,8 +48,10 @@
 
 -(void) gameLoop
 {
-    if(gameState == gameStateRunning)
+    if(gameState == RUNNING)
     {
+        Game *game = [Game sharedGame];
+        
         //Hide all the labels
         userScoreText.hidden = YES;
         aiScoreText.hidden = YES;
@@ -78,6 +80,7 @@
             frame.origin.x = userPaddle.frame.origin.x - frame.size.height;
             ball.frame = frame;
             ballVelocity.x -= ballVelocity.x * 2;
+            [self ProposeAiWillLoose];
         }
         
         if(CGRectIntersectsRect(ball.frame, aiPaddle.frame))
@@ -126,14 +129,14 @@
         if(ball.center.x <= 0)
         {
             userScoreValue++;
-            [self reset:(userScoreValue >= scoreToWin)];
+            [self reset:(userScoreValue >= game.scoreToWin)];
             [self ProposeAiWillLoose];
         }
         
         if(ball.center.x > self.screenBounds.size.width)
         {
             aiScoreValue++;
-            [self reset:(aiScoreValue >= scoreToWin)];
+            [self reset:(aiScoreValue >= game.scoreToWin)];
         }
     }
 }
@@ -153,7 +156,7 @@
 
 -(void)reset:(BOOL)newGame
 {
-    self.gameState = gameStatePaused;
+    self.gameState = PAUSED;
     
     ball.center = CGPointMake(241, 159);
     
@@ -183,16 +186,18 @@
 }
 
 -(void)ProposeAiWillLoose {
-    
-    self.aiWillLoose = (bool)((arc4random() % 100) > 90);
+    Game *game = [Game sharedGame];
+    int probability = 85 + (game.difficulty * 5);
+    self.aiWillLoose = (bool)((arc4random() % 100) > probability);
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    self.gameState = gameStatePaused;
-    ballVelocity = CGPointMake(ballSpeedX, ballSpeedY);
+    self.gameState = PAUSED;
+    Game *game = [Game sharedGame];
+    ballVelocity = CGPointMake(ballSpeedX + game.difficulty, ballSpeedY + game.difficulty);
     [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(gameLoop) userInfo:Nil repeats:YES];
     
     winOrLoseLabel.hidden = YES;
@@ -213,6 +218,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 
