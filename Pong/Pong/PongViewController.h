@@ -42,7 +42,9 @@
 @property (nonatomic, retain)IBOutlet UILabel *winOrLoseLabel;
 
 @property(nonatomic)CGPoint ballVelocity;
+@property(nonatomic)CGRect screenBounds;
 
+@property(nonatomic)Boolean aiWillLoose;
 @property(nonatomic)NSInteger gameState;
 
 -(void)reset:(BOOL)newGame;

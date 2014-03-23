@@ -42,7 +42,7 @@
     if (location.x > self.view.bounds.size.height)
     {
         CGPoint yLocation = CGPointMake(userPaddle.center.x, location.y);
-        userPaddle.center = yLocation;
+        userPaddle.center = [self correctObjectLocation:userPaddle.bounds newLocation:yLocation];
     }
 }
 
@@ -61,17 +61,15 @@
         
         
         //Collision detection
-        if (ball.center.x > self.view.bounds.size.width || ball.center.x < 0)
+        if (ball.center.x > self.screenBounds.size.width || ball.center.x < self.screenBounds.origin.x)
         {
             ballVelocity.x -= ballVelocity.x * 2;
             
         }
         
-        if (ball.center.y > self.view.bounds.size.height || ball.center.y < 0)
+        if (ball.center.y > self.screenBounds.size.height || ball.center.y < self.screenBounds.origin.y)
         {
             ballVelocity.y -= ballVelocity.y * 2;
-
-            
         }
         
         if(CGRectIntersectsRect(ball.frame, userPaddle.frame))
@@ -88,6 +86,7 @@
             frame.origin.x = CGRectGetMaxX(aiPaddle.frame);
             ball.frame = frame;
             ballVelocity.x -= ballVelocity.x * 2;
+            [self ProposeAiWillLoose];
         }
         
         /*
@@ -96,23 +95,27 @@
          *  Need to find a way to have this running as the ball is moving 
          *  Instead
          */
+        int aispeed = 0;
+        float distance = abs(ball.center.y - aiPaddle.center.y);
         
-        if(ball.center.x <= self.aiPaddle.center.x)
-        {
-            if(ball.center.y < aiPaddle.center.y)
-            {
-                CGPoint aiLocation = CGPointMake(aiPaddle.center.x, aiPaddle.center.y - aiMoveSpeed*4);
-                aiPaddle.center = aiLocation;
-            }
-        }
-        if(ball.center.x >= self.aiPaddle.center.x)
-        {
-            if(ball.center.y > aiPaddle.center.y)
-            {
-                CGPoint aiLocation = CGPointMake(aiPaddle.center.x, aiPaddle.center.y + aiMoveSpeed*4);
-                aiPaddle.center = aiLocation;
-            }
-        }
+        // Calculate the balls new speed
+        if(ball.center.x < self.screenBounds.size.width*3/4) aispeed = 1;
+        if(ball.center.x < self.screenBounds.size.width/2) aispeed *= 2;
+        if(ball.center.x < self.screenBounds.size.width/4) aispeed *= 4;
+        
+        // If we want the ai to loose, set the speed to 1 for slower response to the ball
+        if(self.aiWillLoose && aispeed > 1) aispeed = 1;
+        
+        // Prevent the ball from shaking from too fast of a movement
+        if(distance < aispeed) aispeed = distance;
+        
+        // Determine the movement direction
+        if(ball.center.y < aiPaddle.center.y) aispeed *= -1;
+        
+        // Create our new point
+        CGPoint aiLocation = CGPointMake(aiPaddle.center.x, aiPaddle.center.y + aispeed);
+        
+        aiPaddle.center = [self correctObjectLocation:aiPaddle.bounds newLocation:aiLocation];
         
         
         
@@ -124,14 +127,28 @@
         {
             userScoreValue++;
             [self reset:(userScoreValue >= scoreToWin)];
+            [self ProposeAiWillLoose];
         }
         
-        if(ball.center.x > self.view.bounds.size.width)
+        if(ball.center.x > self.screenBounds.size.width)
         {
             aiScoreValue++;
             [self reset:(aiScoreValue >= scoreToWin)];
         }
     }
+}
+
+-(CGPoint) correctObjectLocation:(CGRect)obj newLocation:(CGPoint) location {
+    float x = obj.size.width/2;
+    float y = obj.size.height/2;
+    
+    if(location.x+x > self.screenBounds.size.width) location.x = self.screenBounds.size.width - x;
+    if(location.y+y > self.screenBounds.size.height) location.y = self.screenBounds.size.height - y;
+    
+    if(location.x-x < self.screenBounds.origin.x) location.x = self.screenBounds.origin.x + x;
+    if(location.y-y < self.screenBounds.origin.y) location.y = self.screenBounds.origin.y + y;
+    
+    return location;
 }
 
 -(void)reset:(BOOL)newGame
@@ -143,8 +160,8 @@
     userScoreText.hidden = NO;
     aiScoreText.hidden = NO;
     
-    userScoreText.text = [NSString stringWithFormat:@"%d", userScoreValue];
-    aiScoreText.text = [NSString stringWithFormat:@"%d", aiScoreValue];
+    userScoreText.text = [NSString stringWithFormat:@"%ld", (long)userScoreValue];
+    aiScoreText.text = [NSString stringWithFormat:@"%ld", (long)aiScoreValue];
     
     if(newGame)
     {
@@ -165,6 +182,10 @@
     }
 }
 
+-(void)ProposeAiWillLoose {
+    
+    self.aiWillLoose = (bool)((arc4random() % 100) > 90);
+}
 
 - (void)viewDidLoad
 {
@@ -180,7 +201,12 @@
     
     [userScoreText setFont:[UIFont fontWithName:@"kongtext" size:50]];
     [aiScoreText setFont:[UIFont fontWithName:@"kongtext" size:50]];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    self.screenBounds = CGRectMake(0, 26, self.view.bounds.size.height, self.view.bounds.size.width - 26);
+}
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning
