@@ -5,9 +5,9 @@
 //  Created by Brentton Garber on 3/23/14.
 //  Copyright (c) 2014 Ahbiya Harris and Brent Garber. All rights reserved.
 //
-#define EASY 0
-#define MEDIUM 1
-#define HARD 2
+#define EASY 1
+#define MEDIUM 2
+#define HARD 3
 
 #import <Foundation/Foundation.h>
 

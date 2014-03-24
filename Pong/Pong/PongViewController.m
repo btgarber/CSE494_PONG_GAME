@@ -7,12 +7,11 @@
 //
 
 #import "PongViewController.h"
-#define aiMoveSpeed 1.25
-#define scoreToWin 9
+
 #define userScoreRegion 0
 #define aiScoreRegion 567
-#define topBorder 25
-#define bottomBorder 276
+#define topBorder 43
+#define bottomBorder 278
 
 
 @interface PongViewController ()
@@ -27,18 +26,13 @@
     CGPoint location = [touch locationInView:self.view];
     
     [self moveUserPaddle:location];
-    
-    //start the game
-
-//    if (location.x > self.view.bounds.size.height)
-//    {
-//        CGPoint yLocation = CGPointMake(userPaddle.center.x, location.y);
-//        userPaddle.center = [self correctObjectLocation:userPaddle.bounds newLocation:yLocation];
-//    }
 }
 
 -(void) gameLoop
 {
+    
+    [self calculateAIPaddleSpeed];
+
     [self moveAIPaddle];
     
     //checks for collision
@@ -49,10 +43,6 @@
     
     [self testWallCollision:ball];
     
-    /*
-     *  Score logic, updating the score and restarting the game
-     *
-     */
     if(ball.center.x < userScoreRegion)
         [self userScored];
     
@@ -78,10 +68,7 @@
 //        float distance = abs(ball.center.y - aiPaddle.center.y);
     
         // Calculate the balls new speed
-//        if(ball.center.x < self.screenBounds.size.width*3/4) aispeed = 1;
-//        if(ball.center.x < self.screenBounds.size.width/2) aispeed *= 2;
-//        if(ball.center.x < self.screenBounds.size.width/4) aispeed *= 4;
-        
+    
 //        // If we want the ai to loose, set the speed to 1 for slower response to the ball
 //        if(self.aiWillLoose && aispeed > 1) aispeed = 1;
 //        
@@ -95,8 +82,6 @@
 //        CGPoint aiLocation = CGPointMake(aiPaddle.center.x, aiPaddle.center.y + aispeed);
 //        
 //        aiPaddle.center = [self correctObjectLocation:aiPaddle.bounds newLocation:aiLocation];
-    
-        
         
 
 }
@@ -104,32 +89,46 @@
 
 -(void)userScored
 {
+    Game* game = [Game sharedGame];
     userScore++;
     userScoreText.text = [NSString stringWithFormat:@"%i", userScore];
     
     [timer invalidate];
     timer = nil;
     startButton.hidden = NO;
-    ball.center = CGPointMake(252, 152);
+    ball.center = CGPointMake(278, 150);
     aiPaddle.center = CGPointMake(10, 140);
     
     
-    [self reset:(userScore == scoreToWin)];
+    [self reset:(userScore == game.scoreToWin)];
 }
 
 -(void)aiScored
 {
+    Game* game = [Game sharedGame];
     aiScore++;
     aiScoreText.text = [NSString stringWithFormat:@"%i", aiScore];
     
     [timer invalidate];
     timer = nil;
     startButton.hidden =NO;
-    ball.center = CGPointMake(252, 152);
+    ball.center = CGPointMake(278, 150);
     aiPaddle.center = CGPointMake(10, 140);
     
     
-    [self reset:(aiScore == scoreToWin)];
+    [self reset:(aiScore == game.scoreToWin)];
+}
+
+-(void)calculateAIPaddleSpeed
+{
+    if(ball.center.x < self.view.bounds.size.width*3/4)
+        aiMoveSpeed = 1;
+    if(ball.center.x < self.view.bounds.size.width/2)
+        aiMoveSpeed *= 2;
+    if(ball.center.x < self.view.bounds.size.width/4)
+        aiMoveSpeed *= 4;
+    if(aiWillLose && aiMoveSpeed > 1)
+        aiMoveSpeed = 1;
 }
 
 -(void)moveBall
@@ -139,11 +138,13 @@
 
 -(void)setBallSpeed
 {
-    ballSpeedX = arc4random() %11;
-    ballSpeedX = ballSpeedX-5;
+    Game* game = [Game sharedGame];
     
-    ballSpeedY = arc4random() %11;
-    ballSpeedX = ballSpeedX-5;
+    ballSpeedX = arc4random() %game.difficulty;
+    ballSpeedX = ballSpeedX-4;
+    
+    ballSpeedY = arc4random() %game.difficulty;
+    ballSpeedX = ballSpeedX-4;
     
     if (ballSpeedX == 0) {
         ballSpeedX = 1;
@@ -186,12 +187,18 @@
     
 }
 
+-(void)ProposeAiWillLoose
+{
+    Game *game = [Game sharedGame];
+    int probability = 40 + (game.difficulty * 5);
+    aiWillLose = (bool)((arc4random() % 100) > probability);
+}
 
 -(void)testWallCollision:(UIImageView*) object
 {
-    if (object.center.y > topBorder)
+    if (object.center.y > (topBorder-object.bounds.size.width))
         ballSpeedY = 0-ballSpeedY;
-    if(object.center.y < bottomBorder)
+    if(object.center.y < (bottomBorder+object.bounds.size.width))
         ballSpeedY = 0 - ballSpeedY;
     
 }
@@ -298,6 +305,7 @@
     userScore = 0;
     aiScore = 0;
     [super viewDidLoad];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     
 }
@@ -308,18 +316,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskLandscape;
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 
 
-//-(void)ProposeAiWillLoose {
-//    Game *game = [Game sharedGame];
-//    int probability = 85 + (game.difficulty * 5);
-//    self.aiWillLoose = (bool)((arc4random() % 100) > probability);
-//}
 //
 //- (void)viewDidLoad
 //{
@@ -336,7 +344,7 @@
 //    
 //    [userScoreText setFont:[UIFont fontWithName:@"kongtext" size:50]];
 //    [aiScoreText setFont:[UIFont fontWithName:@"kongtext" size:50]];
-//    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+//
 //    self.screenBounds = CGRectMake(0, 26, self.view.bounds.size.height, self.view.bounds.size.width - 26);
 //}
 //

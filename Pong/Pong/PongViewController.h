@@ -13,6 +13,8 @@ int userScore;
 int aiScore;
 int ballSpeedX;
 int ballSpeedY;
+int aiMoveSpeed;
+bool aiWillLose;
 
 @interface PongViewController : UIViewController
 {
