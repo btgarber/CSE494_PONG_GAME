@@ -9,9 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "Game.h"
 
+int userScore;
+int aiScore;
+int ballSpeedX;
+int ballSpeedY;
+
 @interface PongViewController : UIViewController
 {
     IBOutlet UIImageView *ball;
+    IBOutlet UIButton *startButton;
+    IBOutlet UIButton *exitButton;
     
     IBOutlet UIImageView *userPaddle;
     IBOutlet UIImageView *aiPaddle;
@@ -22,32 +29,11 @@
     
     IBOutlet UILabel *winOrLoseLabel;
     
-    CGPoint ballVelocity;
-    
-    NSInteger gameState;
-    
-    NSInteger userScoreValue;
-    NSInteger aiScoreValue;
-    
+    NSTimer* timer;
 }
 
-@property (nonatomic, retain) IBOutlet UIImageView *ball;
-
-@property (nonatomic, retain)IBOutlet UIImageView *userPaddle;
-@property (nonatomic, retain)IBOutlet UIImageView *aiPaddle;
-
-@property (nonatomic, retain)IBOutlet UILabel *userScoreText;
-
-@property (nonatomic, retain)IBOutlet UILabel *aiScoreText;
-
-@property (nonatomic, retain)IBOutlet UILabel *winOrLoseLabel;
-
-@property(nonatomic)CGPoint ballVelocity;
-@property(nonatomic)CGRect screenBounds;
-
-@property(nonatomic)Boolean aiWillLoose;
-@property(nonatomic)NSInteger gameState;
-
+-(IBAction)startButton:(id)sender;
+-(void)gameLoop;
 -(void)reset:(BOOL)newGame;
 
 
