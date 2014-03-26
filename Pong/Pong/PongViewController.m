@@ -53,20 +53,17 @@
 
 -(void)updateHighScore
 {
+    
     Game *game = [Game sharedGame];
     if (totalScore > [game.highScore intValue])
     {
-        PFQuery *query = [PFQuery queryWithClassName:@"Hiscore"];
+        PFObject *highScore = [PFObject objectWithClassName:@"Hiscore"];
         
-        // Retrieve the object by id
-        [query getObjectInBackgroundWithId:@"" block:^(PFObject *highScore, NSError *error) {
             
-            
-            // will get sent to the cloud. playerName hasn't changed.
-            [highScore setObject:[NSNumber numberWithInt: totalScore] forKey:@"currentHiScore"];
-            [highScore saveInBackground];
-            
-        }];
+        // will get sent to the cloud. playerName hasn't changed.
+        [highScore setObject:[NSNumber numberWithInt: totalScore] forKey:@"currentHiScore"];
+        [highScore setObjectId: [game getDeviceIdentifier]];
+        [highScore saveInBackground];
     }
 }
 

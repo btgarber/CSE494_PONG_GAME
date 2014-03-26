@@ -30,5 +30,25 @@ static Game* theGame = nil;
     return theGame;
 }
 
+-(NSString*) getDeviceIdentifier
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
+    NSString *directory = [paths objectAtIndex:0];
+    NSString *identPath = [NSString stringWithFormat:@"%@/%@", directory, @"deviceID.dat"];
+    
+    NSString *ident = [[NSKeyedUnarchiver unarchiveObjectWithFile:identPath] valueForKey:@"ID"];
+    
+    return ident;
+}
+
+-(void) setDeviceIdentifier:(NSString*) ident
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
+    NSString *directory = [paths objectAtIndex:0];
+    NSString *identPath = [NSString stringWithFormat:@"%@/%@", directory, @"deviceID.dat"];
+    
+    [NSKeyedArchiver archiveRootObject:ident toFile: identPath];
+}
+
 
 @end

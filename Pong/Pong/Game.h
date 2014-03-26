@@ -17,6 +17,9 @@
 @property(nonatomic)int scoreToWin;
 @property(nonatomic)NSNumber* highScore;
 
+
+-(NSString*) getDeviceIdentifier;
+-(void) setDeviceIdentifier:(NSString*) ident;
 +(Game*)sharedGame;
 
 @end

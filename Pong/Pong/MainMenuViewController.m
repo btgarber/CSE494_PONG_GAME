@@ -26,17 +26,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    PFQuery *query = [PFQuery queryWithClassName:@"HiScore"]; // 1
-    [query getObjectInBackgroundWithId:@"Up2R1jeuwa" block:^(PFObject  *score, NSError *error) { //2
-        // Do something with the returned PFObject in the gameScore variable.
-        Game *game = [Game sharedGame];
-        game.highScore = [score objectForKey:@"currentHiScore"];
-        NSLog(@"%@", game.highScore);
-        
-        self.hiScoreLabel.text = [NSString stringWithFormat:@"%@", game.highScore];
-        
-        //Sets the label "balanceLabel" the the users current balance.
-    }];
+    Game *game = [Game sharedGame];
+    NSString *ident = [game getDeviceIdentifier];
+    if(ident == NULL)
+    {
+        PFObject *highscore = [PFObject objectWithClassName:@"HiScore"];
+        [highscore setObject: [NSNumber numberWithInt:0] forKey:@"currentHiScore"];
+        [highscore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [game setDeviceIdentifier: [highscore objectId]];
+        }];
+    }
+    else
+    {
+        PFQuery *query = [PFQuery queryWithClassName:@"HiScore"]; // 1
+        [query getObjectInBackgroundWithId: ident block:^(PFObject  *score, NSError *error) { //2
+            // Do something with the returned PFObject in the gameScore variable.
+            Game *game = [Game sharedGame];
+            game.highScore = [score objectForKey:@"currentHiScore"];
+            NSLog(@"%@", game.highScore);
+            
+            self.hiScoreLabel.text = [NSString stringWithFormat:@"%@", game.highScore];
+            [game getDeviceIdentifier];
+            //Sets the label "balanceLabel" the the users current balance.
+        }];
+    }
     // Do any additional setup after loading the view.
 }
 
