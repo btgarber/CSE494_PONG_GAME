@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 #import "Game.h"
 
 int userScore;
+int totalScore;
 int aiScore;
 int ballSpeedX;
 int ballSpeedY;
@@ -32,7 +34,11 @@ bool aiWillLose;
     IBOutlet UILabel *winOrLoseLabel;
     
     NSTimer* timer;
+    
+
 }
+
+@property(nonatomic) int currentHiScore;
 
 -(IBAction)startButton:(id)sender;
 -(void)gameLoop;

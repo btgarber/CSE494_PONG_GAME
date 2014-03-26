@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+#import "PongViewController.h"
 #import "Game.h"
 
 @interface MainMenuViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UILabel *hiScoreLabel;
 
 @end

@@ -48,44 +48,26 @@
     
     if(ball.center.x > aiScoreRegion)
         [self aiScored];
-//
-//        Game *game = [Game sharedGame];
-//
-//        //Hide all the labels
-//        userScoreText.hidden = YES;
-//        aiScoreText.hidden = YES;
-//        winOrLoseLabel.hidden = YES;
-//        
-//        
-//    
-//        /*
-//         *  AI is extremely stupid at the momenent.
-//         *  Make it smarter. Currently this code is executed in sequence.
-//         *  Need to find a way to have this running as the ball is moving 
-//         *  Instead
-//         */
-//        int aispeed = 0;
-//        float distance = abs(ball.center.y - aiPaddle.center.y);
-    
-        // Calculate the balls new speed
-    
-//        // If we want the ai to loose, set the speed to 1 for slower response to the ball
-//        if(self.aiWillLoose && aispeed > 1) aispeed = 1;
-//        
-//        // Prevent the ball from shaking from too fast of a movement
-//        if(distance < aispeed) aispeed = distance;
-//        
-//        // Determine the movement direction
-//        if(ball.center.y < aiPaddle.center.y) aispeed *= -1;
-//        
-//        // Create our new point
-//        CGPoint aiLocation = CGPointMake(aiPaddle.center.x, aiPaddle.center.y + aispeed);
-//        
-//        aiPaddle.center = [self correctObjectLocation:aiPaddle.bounds newLocation:aiLocation];
-        
 
 }
 
+-(void)updateHiScore
+{
+    if (totalScore > self.currentHiScore)
+    {
+        PFQuery *query = [PFQuery queryWithClassName:@"Hiscore"];
+        
+        // Retrieve the object by id
+        [query getObjectInBackgroundWithId:@"" block:^(PFObject *hiScore, NSError *error) {
+            
+            
+            // will get sent to the cloud. playerName hasn't changed.
+            [hiScore setObject:[NSNumber numberWithInt:self.currentHiScore] forKey:@"currentBalance"];
+            [hiScore saveInBackground];
+            
+        }];
+    }
+}
 
 -(void)userScored
 {
@@ -219,50 +201,6 @@
 
 
 
-//-(CGPoint) correctObjectLocation:(CGRect)obj newLocation:(CGPoint) location {
-//    float x = obj.size.width/2;
-//    float y = obj.size.height/2;
-//    
-//    if(location.x+x > self.screenBounds.size.width) location.x = self.screenBounds.size.width - x;
-//    if(location.y+y > self.screenBounds.size.height) location.y = self.screenBounds.size.height - y;
-//    
-//    if(location.x-x < self.screenBounds.origin.x) location.x = self.screenBounds.origin.x + x;
-//    if(location.y-y < self.screenBounds.origin.y) location.y = self.screenBounds.origin.y + y;
-//    
-//    return location;
-//}
-
-//-(void)reset:(BOOL)newGame
-//{
-//    self.gameState = PAUSED;
-//    
-//    ball.center = CGPointMake(241, 159);
-//    
-//    userScoreText.hidden = NO;
-//    aiScoreText.hidden = NO;
-//    
-//    userScoreText.text = [NSString stringWithFormat:@"%ld", (long)userScoreValue];
-//    aiScoreText.text = [NSString stringWithFormat:@"%ld", (long)aiScoreValue];
-//    
-//    if(newGame)
-//    {
-//        winOrLoseLabel.hidden = NO;
-//        
-//        if(aiScoreValue > userScoreValue)
-//        {
-//            winOrLoseLabel.text = @"Game Over!";
-//            
-//        }
-//        else
-//        {
-//            winOrLoseLabel.text = @"You Win!";
-//        }
-//        
-//        userScoreValue = 0;
-//        aiScoreValue = 0;
-//    }
-//}
-
 -(void)reset:(BOOL)newGame
 {
     
@@ -327,42 +265,6 @@
     return YES;
 }
 
-
-//
-//- (void)viewDidLoad
-//{
-//    [super viewDidLoad];
-//	// Do any additional setup after loading the view, typically from a nib.
-//    self.gameState = PAUSED;
-//    Game *game = [Game sharedGame];
-//    ballVelocity = CGPointMake(ballSpeedX + game.difficulty, ballSpeedY + game.difficulty);
-//    [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(gameLoop) userInfo:Nil repeats:YES];
-//    
-//    winOrLoseLabel.hidden = YES;
-//    
-//    [winOrLoseLabel setFont:[UIFont fontWithName:@"kongtext" size:50]];
-//    
-//    [userScoreText setFont:[UIFont fontWithName:@"kongtext" size:50]];
-//    [aiScoreText setFont:[UIFont fontWithName:@"kongtext" size:50]];
-//
-//    self.screenBounds = CGRectMake(0, 26, self.view.bounds.size.height, self.view.bounds.size.width - 26);
-//}
-//
-//- (BOOL)prefersStatusBarHidden {
-//    return YES;
-//}
-//
-//- (void)didReceiveMemoryWarning
-//{
-//    [super didReceiveMemoryWarning];
-//    // Dispose of any resources that can be recreated.
-//}
-//
-//- (NSUInteger)supportedInterfaceOrientations
-//{
-//    return UIInterfaceOrientationMaskLandscape;
-//}
-//
 
 @end
 

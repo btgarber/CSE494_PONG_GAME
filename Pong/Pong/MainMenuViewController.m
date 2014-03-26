@@ -26,6 +26,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    PFQuery *query = [PFQuery queryWithClassName:@"HiScore"]; // 1
+    [query getObjectInBackgroundWithId:@"Up2R1jeuwa" block:^(PFObject  *score, NSError *error) { //2
+        // Do something with the returned PFObject in the gameScore variable.
+        self.hiScoreLabel.text= [score objectForKey:@"currentHiScore"] ;
+        
+        //Sets the label "balanceLabel" the the users current balance.
+    }];
     // Do any additional setup after loading the view.
 }
 
@@ -43,6 +50,15 @@
     UISegmentedControl *ctrl = (UISegmentedControl*) sender;
     [[Game sharedGame] setDifficulty: (int)ctrl.selectedSegmentIndex];
     
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ( [segue.identifier isEqualToString:@"sequeToPong"])
+    {
+        PongViewController *nextViewController = segue.destinationViewController;
+        nextViewController.currentHiScore = [self.hiScoreLabel.text intValue];
+    }
 }
 /*
 #pragma mark - Navigation
