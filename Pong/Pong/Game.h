@@ -15,6 +15,7 @@
 
 @property(nonatomic)int difficulty;
 @property(nonatomic)int scoreToWin;
+@property(nonatomic)NSNumber* highScore;
 
 +(Game*)sharedGame;
 

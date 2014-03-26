@@ -17,6 +17,7 @@ int ballSpeedX;
 int ballSpeedY;
 int aiMoveSpeed;
 bool aiWillLose;
+int userHitCount;
 
 @interface PongViewController : UIViewController
 {
@@ -37,8 +38,6 @@ bool aiWillLose;
     
 
 }
-
-@property(nonatomic) int currentHiScore;
 
 -(IBAction)startButton:(id)sender;
 -(void)gameLoop;

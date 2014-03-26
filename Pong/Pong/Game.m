@@ -18,6 +18,7 @@ static Game* theGame = nil;
     {
         self.difficulty = EASY;
         self.scoreToWin = 5;
+        self.highScore = 0;
     }
     return self;
 }

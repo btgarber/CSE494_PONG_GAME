@@ -51,19 +51,20 @@
 
 }
 
--(void)updateHiScore
+-(void)updateHighScore
 {
-    if (totalScore > self.currentHiScore)
+    Game *game = [Game sharedGame];
+    if (totalScore > [game.highScore intValue])
     {
         PFQuery *query = [PFQuery queryWithClassName:@"Hiscore"];
         
         // Retrieve the object by id
-        [query getObjectInBackgroundWithId:@"" block:^(PFObject *hiScore, NSError *error) {
+        [query getObjectInBackgroundWithId:@"" block:^(PFObject *highScore, NSError *error) {
             
             
             // will get sent to the cloud. playerName hasn't changed.
-            [hiScore setObject:[NSNumber numberWithInt:self.currentHiScore] forKey:@"currentBalance"];
-            [hiScore saveInBackground];
+            [highScore setObject:[NSNumber numberWithInt: totalScore] forKey:@"currentHiScore"];
+            [highScore saveInBackground];
             
         }];
     }
@@ -80,8 +81,6 @@
     startButton.hidden = NO;
     ball.center = CGPointMake(278, 150);
     aiPaddle.center = CGPointMake(10, 140);
-    
-    
     [self reset:(userScore == game.scoreToWin)];
 }
 
@@ -191,6 +190,7 @@
     {
         ballSpeedX = arc4random() % 5;
         ballSpeedX = 0-ballSpeedX;
+        userHitCount++;
     }
     
     if(CGRectIntersectsRect(object.frame, aiPaddle.frame))
@@ -210,6 +210,8 @@
         exitButton.hidden = NO;
         winOrLoseLabel.hidden = NO;
         
+        totalScore += userHitCount * 100;
+        
         if(aiScore > userScore)
         {
             winOrLoseLabel.text = @"You Lose!";
@@ -219,6 +221,7 @@
         {
             winOrLoseLabel.text = @"You Win!";
         }
+        [self updateHighScore];
         
         userScore = 0;
         aiScore = 0;
@@ -241,6 +244,8 @@
 - (void)viewDidLoad
 {
     userScore = 0;
+    totalScore = 0;
+    userHitCount = 0;
     aiScore = 0;
     [super viewDidLoad];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
