@@ -57,11 +57,10 @@
     Game *game = [Game sharedGame];
     if (totalScore > [game.highScore intValue])
     {
-        PFObject *highScore = [PFObject objectWithClassName:@"Hiscore"];
+        PFObject *highScore = [PFObject objectWithClassName:@"HiScore"];
         
-        // will get sent to the cloud. playerName hasn't changed.
-        [highScore setObject:[NSNumber numberWithInt: totalScore] forKey:@"currentHiScore"];
         [highScore setObjectId: [game getDeviceIdentifier]];
+        [highScore setObject:[NSNumber numberWithInt: totalScore] forKey:@"currentHiScore"];
         [highScore saveInBackground];
     }
 }

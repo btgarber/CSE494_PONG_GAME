@@ -41,7 +41,6 @@ static Game* theGame = nil;
         NSData *data = [[NSData alloc] initWithContentsOfFile:path];
         ident = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     }
-    NSLog(ident);
     return ident;
 }
 

@@ -34,7 +34,6 @@
         [highscore setObject: [NSNumber numberWithInt:0] forKey:@"currentHiScore"];
         [highscore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             [game setDeviceIdentifier: [highscore objectId]];
-            NSLog(@"%@", [highscore objectId]);
             [self refreshScore];
         }];
     }
