@@ -30,24 +30,26 @@ static Game* theGame = nil;
     return theGame;
 }
 
+
+
 -(NSString*) getDeviceIdentifier
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
-    NSString *directory = [paths objectAtIndex:0];
-    NSString *identPath = [NSString stringWithFormat:@"%@/%@", directory, @"deviceID.dat"];
+    NSString *path = [@"~/Documents/ident.dat" stringByStandardizingPath];
+    NSString *ident = nil;
     
-    NSString *ident = [[NSKeyedUnarchiver unarchiveObjectWithFile:identPath] valueForKey:@"ID"];
-    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        NSData *data = [[NSData alloc] initWithContentsOfFile:path];
+        ident = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    }
+    NSLog(ident);
     return ident;
 }
 
 -(void) setDeviceIdentifier:(NSString*) ident
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
-    NSString *directory = [paths objectAtIndex:0];
-    NSString *identPath = [NSString stringWithFormat:@"%@/%@", directory, @"deviceID.dat"];
-    
-    [NSKeyedArchiver archiveRootObject:ident toFile: identPath];
+    NSString *path = [@"~/Documents/ident.dat" stringByStandardizingPath];
+    NSData *data = [ident dataUsingEncoding:NSUTF8StringEncoding];
+    [data writeToFile:path atomically:YES];
 }
 
 

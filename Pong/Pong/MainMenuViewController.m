@@ -34,6 +34,8 @@
         [highscore setObject: [NSNumber numberWithInt:0] forKey:@"currentHiScore"];
         [highscore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             [game setDeviceIdentifier: [highscore objectId]];
+            NSLog(@"%@", [highscore objectId]);
+            [self refreshScore];
         }];
     }
     else
@@ -43,14 +45,16 @@
             // Do something with the returned PFObject in the gameScore variable.
             Game *game = [Game sharedGame];
             game.highScore = [score objectForKey:@"currentHiScore"];
-            NSLog(@"%@", game.highScore);
-            
-            self.hiScoreLabel.text = [NSString stringWithFormat:@"%@", game.highScore];
-            [game getDeviceIdentifier];
-            //Sets the label "balanceLabel" the the users current balance.
+            [self refreshScore];
         }];
     }
     // Do any additional setup after loading the view.
+}
+
+-(void)refreshScore
+{
+    Game *game = [Game sharedGame];
+    self.hiScoreLabel.text = [NSString stringWithFormat:@"%@", game.highScore];
 }
 
 - (void)didReceiveMemoryWarning
