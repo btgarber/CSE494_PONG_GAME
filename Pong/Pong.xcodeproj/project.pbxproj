@@ -36,6 +36,7 @@
 		C6A8C3DD18CDDF1300B90002 /* PongTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C6A8C3DC18CDDF1300B90002 /* PongTests.m */; };
 		C6A8C40618CDDF9E00B90002 /* offthepaddle.wav in Resources */ = {isa = PBXBuildFile; fileRef = C6A8C3F518CDDF9E00B90002 /* offthepaddle.wav */; };
 		C6A8C40718CDDF9E00B90002 /* offthewall.wav in Resources */ = {isa = PBXBuildFile; fileRef = C6A8C3F618CDDF9E00B90002 /* offthewall.wav */; };
+		E1A7F0F618E3A08A00534F02 /* pong.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = E1A7F0F518E3A08A00534F02 /* pong.jpeg */; };
 		E1AE61B318DF8C1300792D84 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1AE61B218DF8C1300792D84 /* MainMenuViewController.m */; };
 		E1D0F95818DF922B00DEC63F /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D0F95718DF922B00DEC63F /* Game.m */; };
 /* End PBXBuildFile section */
@@ -87,6 +88,7 @@
 		C6A8C3F618CDDF9E00B90002 /* offthewall.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = offthewall.wav; sourceTree = "<group>"; };
 		C6A8C40A18CEC2FF00B90002 /* Pong.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Pong.xcodeproj; sourceTree = "<group>"; };
 		C6A8C40E18CEC63E00B90002 /* kongtext.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = kongtext.ttf; sourceTree = "<group>"; };
+		E1A7F0F518E3A08A00534F02 /* pong.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pong.jpeg; sourceTree = "<group>"; };
 		E1AE61B118DF8C1300792D84 /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuViewController.h; sourceTree = "<group>"; };
 		E1AE61B218DF8C1300792D84 /* MainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuViewController.m; sourceTree = "<group>"; };
 		E1D0F95618DF922B00DEC63F /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 		C6A8C3E618CDDF9E00B90002 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E1A7F0F518E3A08A00534F02 /* pong.jpeg */,
 				C6A8C40E18CEC63E00B90002 /* kongtext.ttf */,
 				C6320DB118E291630049C1F3 /* ball.png */,
 				C6A8C3F518CDDF9E00B90002 /* offthepaddle.wav */,
@@ -341,6 +344,7 @@
 				C6A8C40718CDDF9E00B90002 /* offthewall.wav in Resources */,
 				C6320DB218E291630049C1F3 /* ball.png in Resources */,
 				C6320DB418E291700049C1F3 /* paddle.png in Resources */,
+				E1A7F0F618E3A08A00534F02 /* pong.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

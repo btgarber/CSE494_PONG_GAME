@@ -138,7 +138,7 @@
     if (touchedLocation.x < self.view.bounds.size.height)
         userPaddle.center = CGPointMake(userPaddle.center.x, touchedLocation.y);
     
-    if(userPaddle.center.y <topBorder)
+    if(userPaddle.center.y < topBorder)
         userPaddle.center = CGPointMake(userPaddle.center.x, topBorder);
     
     if (userPaddle.center.y > bottomBorder)
@@ -149,18 +149,21 @@
 
 -(void)moveAIPaddle
 {
-    if(aiPaddle.center.y > ball.center.y)
-        aiPaddle.center = CGPointMake(aiPaddle.center.x, aiPaddle.center.y - aiMoveSpeed);
+    int aispeed = aiMoveSpeed;
+    float distance = abs(ball.center.y - aiPaddle.center.y);
     
-    if(aiPaddle.center.y < ball.center.y)
-        aiPaddle.center = CGPointMake(aiPaddle.center.x, aiPaddle.center.y + aiMoveSpeed);
+    // Prevent the ball from shaking from too fast of a movement
+    if(distance < aispeed) aispeed = distance;
+    
+    // Determine the movement direction
+    if(ball.center.y < aiPaddle.center.y) aispeed *= -1;
     
     if(aiPaddle.center.y < topBorder)
         aiPaddle.center = CGPointMake(aiPaddle.center.x, topBorder);
-    
-    if (aiPaddle.center.y > bottomBorder)
+    else if (aiPaddle.center.y > bottomBorder)
         aiPaddle.center = CGPointMake(aiPaddle.center.x, bottomBorder);
-    
+    else
+        aiPaddle.center = CGPointMake(aiPaddle.center.x, aiPaddle.center.y + aispeed);
 }
 
 -(void)ProposeAiWillLoose
@@ -186,6 +189,7 @@
         ballSpeedX = arc4random() % 5;
         ballSpeedX = 0-ballSpeedX;
         userHitCount++;
+        [self ProposeAiWillLoose];
     }
     
     if(CGRectIntersectsRect(object.frame, aiPaddle.frame))
