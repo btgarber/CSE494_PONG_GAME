@@ -20,6 +20,9 @@
 		C6320DC418E296AD0049C1F3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6320DC318E296AD0049C1F3 /* CoreLocation.framework */; };
 		C6320DC618E296BB0049C1F3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6320DC518E296BB0049C1F3 /* CFNetwork.framework */; };
 		C6320DC818E296C50049C1F3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6320DC718E296C50049C1F3 /* AudioToolbox.framework */; };
+		C6320DD418E542EA0049C1F3 /* pong58.png in Resources */ = {isa = PBXBuildFile; fileRef = C6320DD118E542EA0049C1F3 /* pong58.png */; };
+		C6320DD518E542EA0049C1F3 /* pong80.png in Resources */ = {isa = PBXBuildFile; fileRef = C6320DD218E542EA0049C1F3 /* pong80.png */; };
+		C6320DD618E542EA0049C1F3 /* pong120.png in Resources */ = {isa = PBXBuildFile; fileRef = C6320DD318E542EA0049C1F3 /* pong120.png */; };
 		C6A8C3B218CDDF1300B90002 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6A8C3B118CDDF1300B90002 /* Foundation.framework */; };
 		C6A8C3B418CDDF1300B90002 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6A8C3B318CDDF1300B90002 /* CoreGraphics.framework */; };
 		C6A8C3B618CDDF1300B90002 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6A8C3B518CDDF1300B90002 /* UIKit.framework */; };
@@ -65,6 +68,9 @@
 		C6320DC318E296AD0049C1F3 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C6320DC518E296BB0049C1F3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C6320DC718E296C50049C1F3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		C6320DD118E542EA0049C1F3 /* pong58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pong58.png; sourceTree = "<group>"; };
+		C6320DD218E542EA0049C1F3 /* pong80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pong80.png; sourceTree = "<group>"; };
+		C6320DD318E542EA0049C1F3 /* pong120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pong120.png; sourceTree = "<group>"; };
 		C6A8C3AE18CDDF1300B90002 /* Pong.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pong.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6A8C3B118CDDF1300B90002 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C6A8C3B318CDDF1300B90002 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -218,6 +224,9 @@
 			isa = PBXGroup;
 			children = (
 				E1A7F0F518E3A08A00534F02 /* pong.jpeg */,
+				C6320DD118E542EA0049C1F3 /* pong58.png */,
+				C6320DD218E542EA0049C1F3 /* pong80.png */,
+				C6320DD318E542EA0049C1F3 /* pong120.png */,
 				C6A8C40E18CEC63E00B90002 /* kongtext.ttf */,
 				C6320DB118E291630049C1F3 /* ball.png */,
 				C6A8C3F518CDDF9E00B90002 /* offthepaddle.wav */,
@@ -337,11 +346,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6A8C3CA18CDDF1300B90002 /* Images.xcassets in Resources */,
+				C6320DD618E542EA0049C1F3 /* pong120.png in Resources */,
 				C6320DB018E290C10049C1F3 /* court.png in Resources */,
 				C6A8C3BC18CDDF1300B90002 /* InfoPlist.strings in Resources */,
 				C6A8C3C518CDDF1300B90002 /* Main.storyboard in Resources */,
 				C6A8C40618CDDF9E00B90002 /* offthepaddle.wav in Resources */,
 				C6A8C40718CDDF9E00B90002 /* offthewall.wav in Resources */,
+				C6320DD418E542EA0049C1F3 /* pong58.png in Resources */,
+				C6320DD518E542EA0049C1F3 /* pong80.png in Resources */,
 				C6320DB218E291630049C1F3 /* ball.png in Resources */,
 				C6320DB418E291700049C1F3 /* paddle.png in Resources */,
 				E1A7F0F618E3A08A00534F02 /* pong.jpeg in Resources */,

@@ -17,7 +17,7 @@ static Game* theGame = nil;
     if((self = [super init]) != nil)
     {
         self.difficulty = EASY;
-        self.scoreToWin = 5;
+        self.scoreToWin = 10;
         self.highScore = 0;
     }
     return self;

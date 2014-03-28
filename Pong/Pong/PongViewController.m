@@ -116,17 +116,17 @@
 {
     Game* game = [Game sharedGame];
     
-    ballSpeedX = arc4random() %game.difficulty;
-    ballSpeedX = ballSpeedX-4;
+    ballSpeedX = (arc4random() %game.difficulty) +2;
+    ballSpeedX = ballSpeedX-3;
     
-    ballSpeedY = arc4random() %game.difficulty;
-    ballSpeedX = ballSpeedX-4;
+    ballSpeedY = (arc4random() %game.difficulty) +2;
+    ballSpeedX = ballSpeedX-3;
     
     if (ballSpeedX == 0) {
-        ballSpeedX = 1;
+        ballSpeedX = 2;
     }
     if (ballSpeedY== 0) {
-        ballSpeedY = 1;
+        ballSpeedY = 2;
     }
 }
 
@@ -178,7 +178,7 @@
     if (object.center.y > (topBorder-object.bounds.size.width))
         ballSpeedY = 0-ballSpeedY;
     if(object.center.y < (bottomBorder+object.bounds.size.width))
-        ballSpeedY = 0 - ballSpeedY;
+        ballSpeedY = 0-ballSpeedY;
     
 }
 
@@ -186,7 +186,7 @@
 {
     if(CGRectIntersectsRect(object.frame, userPaddle.frame))
     {
-        ballSpeedX = arc4random() % 5;
+        ballSpeedX = (arc4random() % 5)+2;
         ballSpeedX = 0-ballSpeedX;
         userHitCount++;
         [self ProposeAiWillLoose];
@@ -194,7 +194,7 @@
     
     if(CGRectIntersectsRect(object.frame, aiPaddle.frame))
     {
-        ballSpeedX = arc4random() %5;
+        ballSpeedX = (arc4random() %5)+2;
     }
 }
 
@@ -209,7 +209,10 @@
         exitButton.hidden = NO;
         winOrLoseLabel.hidden = NO;
         
-        totalScore += userHitCount * 100;
+        if (userHitCount>0)
+            totalScore += userHitCount * 100;
+        else
+            totalScore +=userScore*100;
         
         if(aiScore > userScore)
         {

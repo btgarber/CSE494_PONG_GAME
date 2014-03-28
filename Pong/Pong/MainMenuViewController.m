@@ -31,6 +31,7 @@
     if(ident == NULL)
     {
         PFObject *highscore = [PFObject objectWithClassName:@"HiScore"];
+        game.highScore =  [NSNumber numberWithInt:0];
         [highscore setObject: [NSNumber numberWithInt:0] forKey:@"currentHiScore"];
         [highscore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             [game setDeviceIdentifier: [highscore objectId]];
