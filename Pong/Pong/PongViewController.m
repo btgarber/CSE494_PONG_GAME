@@ -30,6 +30,7 @@
 
 -(void) gameLoop
 {
+    if(paused == true) return;
     
     [self calculateAIPaddleSpeed];
 
@@ -74,6 +75,8 @@
     [timer invalidate];
     timer = nil;
     startButton.hidden = NO;
+    exitButton.hidden = NO;
+    pauseButton.hidden = YES;
     ball.center = CGPointMake(278, 150);
     aiPaddle.center = CGPointMake(10, 140);
     [self reset:(userScore == game.scoreToWin)];
@@ -87,7 +90,9 @@
     
     [timer invalidate];
     timer = nil;
-    startButton.hidden =NO;
+    startButton.hidden = NO;
+    exitButton.hidden = NO;
+    pauseButton.hidden = YES;
     ball.center = CGPointMake(278, 150);
     aiPaddle.center = CGPointMake(10, 140);
     
@@ -208,6 +213,7 @@
         startButton.hidden = YES;
         exitButton.hidden = NO;
         winOrLoseLabel.hidden = NO;
+        pauseButton.hidden = YES;
         
         if (userHitCount>0)
             totalScore += userHitCount * 100;
@@ -230,18 +236,14 @@
     }
 }
 
-
-
 -(IBAction)startButton:(id)sender
 {
     startButton.hidden = YES;
     exitButton.hidden = YES;
+    pauseButton.hidden = NO;
     [self setBallSpeed];
     timer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(gameLoop) userInfo:Nil repeats:YES];
 }
-
-
-
 
 - (void)viewDidLoad
 {
@@ -249,10 +251,28 @@
     totalScore = 0;
     userHitCount = 0;
     aiScore = 0;
+    paused = false;
+    pauseButton.hidden = YES;
     [super viewDidLoad];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     
     
+}
+
+- (IBAction)pauseButtonClicked:(id)sender {
+    paused = !paused;
+    if(paused)
+    {
+        [pauseButton setTitle: @"UnPause" forState: UIControlStateNormal];
+        winOrLoseLabel.text = @"PAUSED";
+        exitButton.hidden = NO;
+        winOrLoseLabel.hidden = NO;
+    }
+    else {
+        [pauseButton setTitle: @"Pause" forState: UIControlStateNormal];
+        exitButton.hidden = YES;
+        winOrLoseLabel.hidden = YES;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -260,8 +280,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 - (NSUInteger)supportedInterfaceOrientations
 {

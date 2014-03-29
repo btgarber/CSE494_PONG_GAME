@@ -121,7 +121,7 @@
                                 <color key="textColor" red="0.0" green="0.50196078431372548" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You Lose!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tHC-v0-Af2">
+                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You Lose!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tHC-v0-Af2">
                                 <rect key="frame" x="177" y="130" width="241" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="56"/>
@@ -152,6 +152,15 @@
                                     <segue destination="W5Y-70-Bvf" kind="modal" id="sBW-2B-Szy"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Kx-Jd-zEk">
+                                <rect key="frame" x="246" y="0.0" width="79" height="27"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Pause"/>
+                                <connections>
+                                    <action selector="pauseButtonClicked:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="6dy-rH-pbw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -164,6 +173,7 @@
                         <outlet property="aiScoreText" destination="U2m-Ga-gDO" id="6uC-Uc-dH9"/>
                         <outlet property="ball" destination="Pp5-P2-41I" id="TXv-jE-AZs"/>
                         <outlet property="exitButton" destination="vky-WC-VM6" id="dRf-JG-o7v"/>
+                        <outlet property="pauseButton" destination="9Kx-Jd-zEk" id="Mh4-XQ-mSO"/>
                         <outlet property="startButton" destination="lcr-Qj-ltj" id="FL4-7z-1yR"/>
                         <outlet property="userPaddle" destination="UA2-0G-sS0" id="ZdH-SE-Tyh"/>
                         <outlet property="userScoreText" destination="pQJ-j4-s62" id="OIr-tE-EJO"/>

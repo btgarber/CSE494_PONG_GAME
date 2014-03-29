@@ -18,12 +18,14 @@ int ballSpeedY;
 int aiMoveSpeed;
 bool aiWillLose;
 int userHitCount;
+bool paused;
 
 @interface PongViewController : UIViewController
 {
     IBOutlet UIImageView *ball;
     IBOutlet UIButton *startButton;
     IBOutlet UIButton *exitButton;
+    IBOutlet UIButton *pauseButton;
     
     IBOutlet UIImageView *userPaddle;
     IBOutlet UIImageView *aiPaddle;
