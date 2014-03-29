@@ -116,10 +116,10 @@
 {
     Game* game = [Game sharedGame];
     
-    ballSpeedX = (arc4random() %game.difficulty) +2;
+    ballSpeedX = (arc4random() %game.difficulty+1) +2;
     ballSpeedX = ballSpeedX-3;
     
-    ballSpeedY = (arc4random() %game.difficulty) +2;
+    ballSpeedY = (arc4random() %game.difficulty+1) +2;
     ballSpeedX = ballSpeedX-3;
     
     if (ballSpeedX == 0) {
@@ -169,7 +169,7 @@
 -(void)ProposeAiWillLoose
 {
     Game *game = [Game sharedGame];
-    int probability = 40 + (game.difficulty * 5);
+    int probability = 30 + (game.difficulty * 5);
     aiWillLose = (bool)((arc4random() % 100) > probability);
 }
 
